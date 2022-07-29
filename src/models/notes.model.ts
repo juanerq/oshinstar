@@ -4,6 +4,15 @@ import { USER_TABLE_NAME } from './user.model'
 
 export const NOTE_TABLE_NAME = 'notes'
 
+export interface NoteSchemaTypes {
+  id: number
+  title: string
+  description: string
+  important: boolean
+  createdAt: Date
+  userId: number
+}
+
 export const NoteSchema = {
   id: {
     type: DataTypes.INTEGER,
@@ -40,7 +49,7 @@ export const NoteSchema = {
   }
 }
 
-export class Note extends Model {
+export class Note extends Model<NoteSchemaTypes> {
 
   static associate (models:any) {
     this.belongsTo(models.User, { as: 'user' })

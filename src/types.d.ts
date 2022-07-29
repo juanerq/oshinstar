@@ -37,7 +37,7 @@ export interface ResultFindUsersType {
 
 export type ResultTo = Array<Error | null, Object | ResultFindUsersType[] | null>
 
-export type To = (promise: any) => Promise<[Error | null, Object | null ]>
+export type To = (promise: any) => Promise<[Error | null, any ]>
 
 export interface paginationType {
   limit: number | undefined

@@ -6,6 +6,7 @@ import to from '../helpers/to';
 import * as response from '../response/success.response';
 
 import { paginationType, ResultTo, UserType } from '../types';
+import hashPassword from '../helpers/hashPassword';
 
 export default class UsersController {
   async searchUsers(req: Request, res: Response, next: NextFunction) {
@@ -30,12 +31,15 @@ export default class UsersController {
   async createUser(req: Request, res: Response, next: NextFunction) {
     const data = req.body
 
+    const [errorHash, password] = await to(hashPassword(data.password))
+    if(errorHash || !password) return next(errorHash)
+
     const newUser: UserType = {
       name: data.name,
       email: data.email,
-      password: data.password,
+      password,
       isBlock: false,
-    }
+    }    
 
     const [error, result] = await to(dbServices.create(newUser))
     if(error) return next(error)

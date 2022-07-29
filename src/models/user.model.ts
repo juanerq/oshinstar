@@ -2,12 +2,25 @@ import { Model, DataTypes, Sequelize } from 'sequelize'
 
 export const USER_TABLE_NAME = 'users'
 
+export interface UserSchemaTypes {
+  id: number
+  name: string
+  email: string
+  password: string
+  isBlock: boolean
+  createdAt: Date
+}
+
 export const UserSchema = {
   id: {
     type: DataTypes.INTEGER,
     field: 'user_id',
     primaryKey: true,
     autoIncrement: true,
+    allowNull: false
+  },
+  name: {
+    type: DataTypes.STRING(100),
     allowNull: false
   },
   email: {
@@ -31,7 +44,7 @@ export const UserSchema = {
   }
 }
 
-export class User extends Model {
+export class User extends Model<UserSchemaTypes> {
 
   static associate (models: any) {
     this.hasMany(models.Note, {
